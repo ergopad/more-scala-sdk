@@ -11,6 +11,14 @@ class LambdaControllerTest extends AnyFlatSpec {
     assert(true)
   }
 
+  "LambdaController" should "parse proxy body correctly [manual testing]" in {
+    val sampleJson = "{}"
+    val input: InputStream = new ByteArrayInputStream(sampleJson.getBytes)
+    val output: OutputStream = new ByteArrayOutputStream()
+    lambdaController.handleLambdaProxyRequest(input, output)
+    assert(false)
+  }
+
   "LambdaController" should "invoke ping correctly" in {
     val sampleJson = "{\"method\":\"ping\",\"id\":\"1\"}"
     val input: InputStream = new ByteArrayInputStream(sampleJson.getBytes)
@@ -32,7 +40,7 @@ class LambdaControllerTest extends AnyFlatSpec {
     val input: InputStream = new ByteArrayInputStream(sampleJson.getBytes)
     val output: OutputStream = new ByteArrayOutputStream()
     lambdaController.handleRequest(input, output)
-    assert(output.toString == "\"Method Not Found\"")
+    assert(output.toString == "{\"statusCode\":404,\"headers\":{\"Content-Type\":\"application/json\"},\"body\":\"Method not found\"}")
   }
 
   "LambdaController" should "throw error on undefined method" in {
@@ -40,6 +48,6 @@ class LambdaControllerTest extends AnyFlatSpec {
     val input: InputStream = new ByteArrayInputStream(sampleJson.getBytes)
     val output: OutputStream = new ByteArrayOutputStream()
     lambdaController.handleRequest(input, output)
-    assert(output.toString == "\"java.util.NoSuchElementException: key not found: method\"")
+    assert(output.toString == "{\"statusCode\":400,\"headers\":{\"Content-Type\":\"application/json\"},\"body\":\"Method is not defined\"}")
   }
 }

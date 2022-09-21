@@ -1,5 +1,6 @@
 target
 .bsp
+.DS_Store
 .idea
 out
 /Class-Documents/.DS_Store
