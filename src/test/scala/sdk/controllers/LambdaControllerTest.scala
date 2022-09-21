@@ -11,12 +11,12 @@ class LambdaControllerTest extends AnyFlatSpec {
     assert(true)
   }
 
-  "LambdaController" should "parse proxy body correctly [manual testing]" in {
+  "LambdaController" should "parse proxy request correctly" in {
     val sampleJson = "{}"
     val input: InputStream = new ByteArrayInputStream(sampleJson.getBytes)
     val output: OutputStream = new ByteArrayOutputStream()
     lambdaController.handleLambdaProxyRequest(input, output)
-    assert(false)
+    assert(output.toString == "{\"statusCode\":400,\"headers\":{\"Content-Type\":\"application/json\"},\"body\":\"Method is not defined\"}")
   }
 
   "LambdaController" should "invoke ping correctly" in {

@@ -1,7 +1,7 @@
 /**
  * M.O.R.E SDK
  *
- * by noob77777
+ * by noob77777 - ergopad.io
  * Mon 19 Sep, 2022
  */
 object Main {

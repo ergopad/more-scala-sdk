@@ -22,7 +22,6 @@ case class SuccessResponse(isBase64Encoded: Boolean, statusCode: Int, headers: M
  * Default Controller for AWS Lambda
  */
 class LambdaController {
-  val gson: Gson = new Gson()
   val scalaMapper: ObjectMapper = {
     new ObjectMapper().registerModule(new DefaultScalaModule)
   }
@@ -32,7 +31,8 @@ class LambdaController {
       val rawRequestBody = scalaMapper.readValue(input, classOf[Map[String, _]])
         .getOrElse("body", "{}")
         .toString
-      val parsedRequestBody = scalaMapper.readValue(new ByteArrayInputStream(rawRequestBody.getBytes), classOf[Map[String, _]])
+      val parsedRequestBody = scalaMapper.readValue(new ByteArrayInputStream(rawRequestBody.getBytes),
+        classOf[Map[String, _]])
       val requestBody = scalaMapper.writeValueAsBytes(parsedRequestBody)
       handleRequest(new ByteArrayInputStream(requestBody), output, httpWrap = true)
     } catch {
